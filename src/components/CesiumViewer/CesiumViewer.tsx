@@ -4,7 +4,7 @@ import React from 'react'
 import { Viewer, Entity, EllipseGraphics, BillboardGraphics, PolylineGraphics } from 'resium'
 import * as Cesium from 'cesium'
 import { useSatelliteContext } from '../../context/SatelliteContext'
-import { loadSatelliteIcon } from '../../utils/loadSvg'
+import { loadTowerIcon, loadAntennaIcon } from '../../utils/loadSvg'
 import { CESIUM_ACCESS_TOKEN, ISTANBUL_CENTER } from '../../config/cesium'
 import 'cesium/Build/Cesium/Widgets/widgets.css'
 
@@ -98,13 +98,13 @@ const CesiumViewer: React.FC = () => {
       const pickedObjects = viewer.scene.drillPick(click.position)
       let pickedEntity: Cesium.Entity | null = null
       
-      // Coverage area entity'lerini atla (id'de "-coverage" olanlar), sadece billboard/entity'yi seç
+      // Coverage area ve anten entity'lerini atla, sadece ana baz istasyonu entity'sini seç
       for (const picked of pickedObjects) {
         if (picked.id) {
           const entityId = picked.id.id as string
-          // Coverage area entity'lerini atla
-          if (entityId && !entityId.includes('-coverage')) {
-            // Billboard veya ana entity'yi bul
+          // Coverage area ve anten entity'lerini atla
+          if (entityId && !entityId.includes('-coverage') && !entityId.includes('-antenna')) {
+            // Ana baz istasyonu entity'sini bul
             pickedEntity = picked.id as Cesium.Entity
             break
           }
@@ -292,7 +292,8 @@ const CesiumViewer: React.FC = () => {
   }
 
   const connections = getConnections()
-  const satelliteIcon = loadSatelliteIcon()
+  const towerIcon = loadTowerIcon() // Sabit kule/platform
+  const antennaIcon = loadAntennaIcon() // Animasyonlu mavi anten
   
   // Bağlantılı istasyon ID'lerini topla
   const connectedStationIds = new Set<string>()
@@ -332,34 +333,21 @@ const CesiumViewer: React.FC = () => {
           }
           const phase = animationPhasesRef.current.get(satellite.id) || 0
           
-          // Renk belirleme: Seçili = ORANGE, Bağlantılı = PURPLE, Normal = Default
-          let baseColor: Cesium.Color = Cesium.Color.WHITE
-          if (isSelected) {
-            baseColor = Cesium.Color.ORANGE
-          } else if (isConnected) {
-            baseColor = Cesium.Color.fromCssColorString('#9B59B6') // Mor/Purple
-          }
+          // Sabit kule için scale (animasyon yok)
+          const towerScale = isSelected ? 2.25 : (isConnected ? 1.8 : 1.5)
           
-          // Parıldama efekti için dinamik color ve scale
-          // CallbackProperty constant: false = her frame'de güncellenir
-          const animatedColor = new Cesium.CallbackProperty(() => {
-            if (!viewerRef.current) return baseColor
+          // Anten için sadece scale animasyonu (glimpse efekti - olduğu yerde büyüyüp küçülme)
+          const antennaAnimatedScale = new Cesium.CallbackProperty(() => {
+            if (!viewerRef.current) {
+              const baseScale = isSelected ? 2.25 : (isConnected ? 1.8 : 1.5)
+              return baseScale
+            }
             
-            // Zaman bazlı animasyon (yaklaşık 2 saniye döngü)
+            // Zaman bazlı scale animasyonu (glimpse efekti - olduğu yerde büyüyüp küçülme)
+            // Daha belirgin pulse için genlik artırıldı (0.15 -> 0.25)
             const time = (Date.now() / 1000) % 2
-            const pulse = Math.sin((time * Math.PI) + phase) * 0.3 + 0.7 // 0.4 - 1.0 arası
-            const alpha = Math.min(0.9, pulse + 0.1) // 0.5 - 1.0 arası alpha
-            
-            return baseColor.withAlpha(alpha)
-          }, false)
-          
-          const animatedScale = new Cesium.CallbackProperty(() => {
-            if (!viewerRef.current) return isSelected ? 1.5 : (isConnected ? 1.2 : 1.0)
-            
-            // Zaman bazlı scale animasyonu (hafif büyüyüp küçülme)
-            const time = (Date.now() / 1000) % 2
-            const pulse = Math.sin((time * Math.PI) + phase) * 0.15 + 0.85 // 0.7 - 1.0 arası
-            const baseScale = isSelected ? 1.5 : (isConnected ? 1.2 : 1.0)
+            const pulse = Math.sin((time * Math.PI) + phase) * 0.25 + 0.75 // 0.5 - 1.0 arası (daha belirgin)
+            const baseScale = isSelected ? 2.25 : (isConnected ? 1.8 : 1.5)
             
             return baseScale * pulse
           }, false)
@@ -377,14 +365,37 @@ const CesiumViewer: React.FC = () => {
                 )}
                 description={`<div><h3>${satellite.name}</h3><p>${satellite.metadata.mission}</p></div>`}
               >
-                {/* Baz istasyonu ikonu */}
+                {/* Sabit kule/platform - animasyon yok, anten ışığına göre hizalanmış */}
                 <BillboardGraphics
-                  image={satelliteIcon}
-                  scale={animatedScale}
+                  image={towerIcon}
+                  scale={towerScale}
+                  verticalOrigin={Cesium.VerticalOrigin.CENTER}
+                  horizontalOrigin={Cesium.HorizontalOrigin.CENTER}
+                  pixelOffset={new Cesium.Cartesian2(0, 10)}
+                  color={Cesium.Color.WHITE.withAlpha(1.0)}
+                  heightReference={Cesium.HeightReference.RELATIVE_TO_GROUND}
+                  disableDepthTestDistance={Number.POSITIVE_INFINITY}
+                />
+              </Entity>
+              
+              {/* Animasyonlu mavi anten kısmı - sadece bu parıldayacak (olduğu yerde scale up/down) */}
+              <Entity
+                id={`${satellite.id}-antenna`}
+                position={Cesium.Cartesian3.fromDegrees(
+                  satellite.position.longitude,
+                  satellite.position.latitude,
+                  satellite.position.height
+                )}
+              >
+                <BillboardGraphics
+                  image={antennaIcon}
+                  scale={antennaAnimatedScale}
                   verticalOrigin={Cesium.VerticalOrigin.CENTER}
                   horizontalOrigin={Cesium.HorizontalOrigin.CENTER}
                   pixelOffset={new Cesium.Cartesian2(0, 0)}
-                  color={animatedColor}
+                  color={Cesium.Color.WHITE.withAlpha(1.0)}
+                  heightReference={Cesium.HeightReference.RELATIVE_TO_GROUND}
+                  disableDepthTestDistance={Number.POSITIVE_INFINITY}
                 />
               </Entity>
 

@@ -32,7 +32,7 @@ export const satellites: Satellite[] = [
       power: 5000,
       mass: 250
     },
-    connections: ['BS-002', 'BS-003', 'BS-005']
+    connections: ['BS-002', 'BS-003', 'BS-005', 'BS-014', 'BS-042', 'BS-037', 'BS-039']
   },
   {
     id: 'BS-002',
@@ -62,7 +62,7 @@ export const satellites: Satellite[] = [
       power: 6000,
       mass: 280
     },
-    connections: ['BS-001', 'BS-004', 'BS-006']
+    connections: ['BS-001', 'BS-004', 'BS-006', 'BS-033', 'BS-051', 'BS-034', 'BS-052']
   },
   {
     id: 'BS-003',
@@ -92,7 +92,7 @@ export const satellites: Satellite[] = [
       power: 7000,
       mass: 320
     },
-    connections: ['BS-001', 'BS-007']
+    connections: ['BS-001', 'BS-007', 'BS-036', 'BS-037', 'BS-038', 'BS-024', 'BS-039']
   },
   {
     id: 'BS-004',
@@ -122,7 +122,7 @@ export const satellites: Satellite[] = [
       power: 4500,
       mass: 220
     },
-    connections: ['BS-002', 'BS-005', 'BS-008']
+    connections: ['BS-002', 'BS-005', 'BS-008', 'BS-032', 'BS-033', 'BS-031']
   },
   {
     id: 'BS-005',
@@ -152,7 +152,7 @@ export const satellites: Satellite[] = [
       power: 8000,
       mass: 350
     },
-    connections: ['BS-001', 'BS-004', 'BS-009']
+    connections: ['BS-001', 'BS-004', 'BS-009', 'BS-043', 'BS-042', 'BS-014', 'BS-035']
   },
   {
     id: 'BS-006',
@@ -182,7 +182,7 @@ export const satellites: Satellite[] = [
       power: 5500,
       mass: 260
     },
-    connections: ['BS-002', 'BS-010']
+    connections: ['BS-002', 'BS-010', 'BS-021', 'BS-022', 'BS-050', 'BS-049']
   },
   {
     id: 'BS-007',
@@ -212,7 +212,7 @@ export const satellites: Satellite[] = [
       power: 3000,
       mass: 180
     },
-    connections: ['BS-003']
+    connections: ['BS-003', 'BS-016', 'BS-041', 'BS-007']
   },
   {
     id: 'BS-008',
@@ -242,7 +242,7 @@ export const satellites: Satellite[] = [
       power: 6500,
       mass: 290
     },
-    connections: ['BS-004', 'BS-011', 'BS-012']
+    connections: ['BS-004', 'BS-011', 'BS-012', 'BS-019', 'BS-020', 'BS-017', 'BS-018']
   },
   {
     id: 'BS-009',
@@ -272,7 +272,7 @@ export const satellites: Satellite[] = [
       power: 4000,
       mass: 200
     },
-    connections: ['BS-005', 'BS-013']
+    connections: ['BS-005', 'BS-013', 'BS-035', 'BS-034', 'BS-053', 'BS-054']
   },
   {
     id: 'BS-010',
@@ -302,7 +302,7 @@ export const satellites: Satellite[] = [
       power: 3500,
       mass: 190
     },
-    connections: ['BS-006', 'BS-014']
+    connections: ['BS-006', 'BS-014', 'BS-049', 'BS-048', 'BS-047', 'BS-046', 'BS-050']
   },
   {
     id: 'BS-011',
@@ -332,7 +332,7 @@ export const satellites: Satellite[] = [
       power: 7500,
       mass: 340
     },
-    connections: ['BS-008', 'BS-015']
+    connections: ['BS-008', 'BS-015', 'BS-019', 'BS-020', 'BS-012']
   },
   {
     id: 'BS-012',
@@ -362,7 +362,7 @@ export const satellites: Satellite[] = [
       power: 9000,
       mass: 400
     },
-    connections: ['BS-008']
+    connections: ['BS-008', 'BS-020', 'BS-011', 'BS-019', 'BS-012']
   },
   {
     id: 'BS-013',
@@ -392,7 +392,7 @@ export const satellites: Satellite[] = [
       power: 5000,
       mass: 230
     },
-    connections: ['BS-009']
+    connections: ['BS-009', 'BS-054', 'BS-055', 'BS-035', 'BS-053', 'BS-031']
   },
   {
     id: 'BS-014',
@@ -422,7 +422,7 @@ export const satellites: Satellite[] = [
       power: 4200,
       mass: 210
     },
-    connections: ['BS-010']
+    connections: ['BS-010', 'BS-045', 'BS-046', 'BS-047', 'BS-048', 'BS-049', 'BS-001', 'BS-005']
   },
   {
     id: 'BS-015',
@@ -452,7 +452,7 @@ export const satellites: Satellite[] = [
       power: 8500,
       mass: 380
     },
-    connections: ['BS-011']
+    connections: ['BS-011', 'BS-034', 'BS-053', 'BS-054', 'BS-035', 'BS-009', 'BS-055']
   },
   {
     id: 'BS-016',
@@ -482,7 +482,7 @@ export const satellites: Satellite[] = [
       power: 10000,
       mass: 450
     },
-    connections: ['BS-007', 'BS-017']
+    connections: ['BS-007', 'BS-017', 'BS-041', 'BS-040', 'BS-016']
   },
   {
     id: 'BS-017',
@@ -512,7 +512,7 @@ export const satellites: Satellite[] = [
       power: 6800,
       mass: 300
     },
-    connections: ['BS-016', 'BS-018', 'BS-008']
+    connections: ['BS-016', 'BS-018', 'BS-008', 'BS-017', 'BS-031', 'BS-019']
   },
   {
     id: 'BS-018',
@@ -542,7 +542,7 @@ export const satellites: Satellite[] = [
       power: 5200,
       mass: 240
     },
-    connections: ['BS-017', 'BS-019']
+    connections: ['BS-017', 'BS-019', 'BS-018', 'BS-031', 'BS-032']
   },
   {
     id: 'BS-019',
@@ -602,7 +602,7 @@ export const satellites: Satellite[] = [
       power: 9500,
       mass: 420
     },
-    connections: ['BS-019', 'BS-012']
+    connections: ['BS-019', 'BS-012', 'BS-020', 'BS-011', 'BS-008']
   },
   {
     id: 'BS-021',
@@ -662,7 +662,7 @@ export const satellites: Satellite[] = [
       power: 4600,
       mass: 215
     },
-    connections: ['BS-021', 'BS-006', 'BS-023']
+    connections: ['BS-021', 'BS-006', 'BS-023', 'BS-022', 'BS-028', 'BS-029']
   },
   {
     id: 'BS-023',
@@ -692,7 +692,7 @@ export const satellites: Satellite[] = [
       power: 5900,
       mass: 270
     },
-    connections: ['BS-022', 'BS-024']
+    connections: ['BS-022', 'BS-024', 'BS-028', 'BS-023', 'BS-029', 'BS-030']
   },
   {
     id: 'BS-024',
@@ -722,7 +722,7 @@ export const satellites: Satellite[] = [
       power: 7200,
       mass: 330
     },
-    connections: ['BS-023', 'BS-025', 'BS-003']
+    connections: ['BS-023', 'BS-025', 'BS-003', 'BS-024', 'BS-036', 'BS-038']
   },
   {
     id: 'BS-025',
@@ -752,7 +752,7 @@ export const satellites: Satellite[] = [
       power: 4100,
       mass: 195
     },
-    connections: ['BS-024']
+    connections: ['BS-024', 'BS-027', 'BS-025', 'BS-026']
   },
   {
     id: 'BS-026',
@@ -782,7 +782,7 @@ export const satellites: Satellite[] = [
       power: 6100,
       mass: 285
     },
-    connections: ['BS-021']
+    connections: ['BS-021', 'BS-022', 'BS-026', 'BS-027', 'BS-006', 'BS-030']
   },
   {
     id: 'BS-027',
@@ -812,7 +812,7 @@ export const satellites: Satellite[] = [
       power: 3200,
       mass: 170
     },
-    connections: ['BS-025']
+    connections: ['BS-025', 'BS-026', 'BS-027']
   },
   {
     id: 'BS-028',
@@ -842,7 +842,7 @@ export const satellites: Satellite[] = [
       power: 6900,
       mass: 310
     },
-    connections: ['BS-023', 'BS-029']
+    connections: ['BS-023', 'BS-029', 'BS-028', 'BS-022', 'BS-030']
   },
   {
     id: 'BS-029',
@@ -872,7 +872,7 @@ export const satellites: Satellite[] = [
       power: 5400,
       mass: 250
     },
-    connections: ['BS-028', 'BS-030']
+    connections: ['BS-028', 'BS-030', 'BS-029', 'BS-021', 'BS-022']
   },
   {
     id: 'BS-030',
@@ -902,7 +902,7 @@ export const satellites: Satellite[] = [
       power: 3800,
       mass: 185
     },
-    connections: ['BS-029', 'BS-021']
+    connections: ['BS-029', 'BS-021', 'BS-030', 'BS-022', 'BS-028']
   },
   {
     id: 'BS-031',
@@ -932,7 +932,7 @@ export const satellites: Satellite[] = [
       power: 7800,
       mass: 355
     },
-    connections: ['BS-018', 'BS-013', 'BS-032']
+    connections: ['BS-018', 'BS-013', 'BS-032', 'BS-031', 'BS-017', 'BS-054', 'BS-055']
   },
   {
     id: 'BS-032',
@@ -962,7 +962,7 @@ export const satellites: Satellite[] = [
       power: 11000,
       mass: 480
     },
-    connections: ['BS-031', 'BS-004', 'BS-033']
+    connections: ['BS-031', 'BS-004', 'BS-033', 'BS-032', 'BS-002', 'BS-018']
   },
   {
     id: 'BS-033',
@@ -992,7 +992,7 @@ export const satellites: Satellite[] = [
       power: 4900,
       mass: 228
     },
-    connections: ['BS-032', 'BS-002', 'BS-034']
+    connections: ['BS-032', 'BS-002', 'BS-034', 'BS-033', 'BS-051', 'BS-052']
   },
   {
     id: 'BS-034',
@@ -1022,7 +1022,7 @@ export const satellites: Satellite[] = [
       power: 3600,
       mass: 175
     },
-    connections: ['BS-033', 'BS-015', 'BS-035']
+    connections: ['BS-033', 'BS-015', 'BS-035', 'BS-034', 'BS-053', 'BS-054', 'BS-055']
   },
   {
     id: 'BS-035',
@@ -1052,7 +1052,7 @@ export const satellites: Satellite[] = [
       power: 5100,
       mass: 235
     },
-    connections: ['BS-034', 'BS-009']
+    connections: ['BS-034', 'BS-009', 'BS-035', 'BS-053', 'BS-054', 'BS-055']
   },
   {
     id: 'BS-036',
@@ -1082,7 +1082,7 @@ export const satellites: Satellite[] = [
       power: 6600,
       mass: 295
     },
-    connections: ['BS-003', 'BS-037']
+    connections: ['BS-003', 'BS-037', 'BS-036', 'BS-038', 'BS-001', 'BS-024']
   },
   {
     id: 'BS-037',
@@ -1112,7 +1112,7 @@ export const satellites: Satellite[] = [
       power: 8200,
       mass: 370
     },
-    connections: ['BS-036', 'BS-003', 'BS-038']
+    connections: ['BS-036', 'BS-003', 'BS-038', 'BS-037', 'BS-039', 'BS-001']
   },
   {
     id: 'BS-038',
@@ -1142,7 +1142,7 @@ export const satellites: Satellite[] = [
       power: 8800,
       mass: 395
     },
-    connections: ['BS-037', 'BS-039']
+    connections: ['BS-037', 'BS-039', 'BS-038', 'BS-036', 'BS-003', 'BS-024']
   },
   {
     id: 'BS-039',
@@ -1172,7 +1172,7 @@ export const satellites: Satellite[] = [
       power: 9800,
       mass: 440
     },
-    connections: ['BS-038', 'BS-040', 'BS-001']
+    connections: ['BS-038', 'BS-040', 'BS-001', 'BS-039', 'BS-037', 'BS-042']
   },
   {
     id: 'BS-040',
@@ -1202,7 +1202,7 @@ export const satellites: Satellite[] = [
       power: 7100,
       mass: 325
     },
-    connections: ['BS-039', 'BS-041']
+    connections: ['BS-039', 'BS-041', 'BS-040', 'BS-042', 'BS-016']
   },
   {
     id: 'BS-041',
@@ -1232,7 +1232,7 @@ export const satellites: Satellite[] = [
       power: 4700,
       mass: 220
     },
-    connections: ['BS-040', 'BS-016']
+    connections: ['BS-040', 'BS-016', 'BS-041', 'BS-039', 'BS-007']
   },
   {
     id: 'BS-042',
@@ -1262,7 +1262,7 @@ export const satellites: Satellite[] = [
       power: 4300,
       mass: 205
     },
-    connections: ['BS-001', 'BS-043']
+    connections: ['BS-001', 'BS-043', 'BS-042', 'BS-039', 'BS-040']
   },
   {
     id: 'BS-043',
@@ -1292,7 +1292,7 @@ export const satellites: Satellite[] = [
       power: 5300,
       mass: 245
     },
-    connections: ['BS-042', 'BS-005', 'BS-044']
+    connections: ['BS-042', 'BS-005', 'BS-044', 'BS-043', 'BS-014', 'BS-045']
   },
   {
     id: 'BS-044',
@@ -1322,7 +1322,7 @@ export const satellites: Satellite[] = [
       power: 3700,
       mass: 180
     },
-    connections: ['BS-043', 'BS-014']
+    connections: ['BS-043', 'BS-014', 'BS-044', 'BS-045', 'BS-046']
   },
   {
     id: 'BS-045',
@@ -1352,7 +1352,7 @@ export const satellites: Satellite[] = [
       power: 3400,
       mass: 165
     },
-    connections: ['BS-044', 'BS-046']
+    connections: ['BS-044', 'BS-046', 'BS-045', 'BS-014', 'BS-010']
   },
   {
     id: 'BS-046',
@@ -1382,7 +1382,7 @@ export const satellites: Satellite[] = [
       power: 4500,
       mass: 215
     },
-    connections: ['BS-045', 'BS-014', 'BS-047']
+    connections: ['BS-045', 'BS-014', 'BS-047', 'BS-046', 'BS-044', 'BS-048']
   },
   {
     id: 'BS-047',
@@ -1412,7 +1412,7 @@ export const satellites: Satellite[] = [
       power: 5000,
       mass: 235
     },
-    connections: ['BS-046', 'BS-048']
+    connections: ['BS-046', 'BS-048', 'BS-047', 'BS-045', 'BS-049']
   },
   {
     id: 'BS-048',
@@ -1442,7 +1442,7 @@ export const satellites: Satellite[] = [
       power: 5800,
       mass: 270
     },
-    connections: ['BS-047', 'BS-049']
+    connections: ['BS-047', 'BS-049', 'BS-048', 'BS-046', 'BS-050']
   },
   {
     id: 'BS-049',
@@ -1472,7 +1472,7 @@ export const satellites: Satellite[] = [
       power: 6300,
       mass: 285
     },
-    connections: ['BS-048', 'BS-050', 'BS-010']
+    connections: ['BS-048', 'BS-050', 'BS-010', 'BS-049', 'BS-047', 'BS-014']
   },
   {
     id: 'BS-050',
@@ -1502,7 +1502,7 @@ export const satellites: Satellite[] = [
       power: 6700,
       mass: 300
     },
-    connections: ['BS-049', 'BS-006']
+    connections: ['BS-049', 'BS-006', 'BS-050', 'BS-048', 'BS-010']
   },
   {
     id: 'BS-051',
@@ -1532,7 +1532,7 @@ export const satellites: Satellite[] = [
       power: 4000,
       mass: 190
     },
-    connections: ['BS-002', 'BS-052']
+    connections: ['BS-002', 'BS-052', 'BS-051', 'BS-033', 'BS-034']
   },
   {
     id: 'BS-052',
@@ -1562,7 +1562,7 @@ export const satellites: Satellite[] = [
       power: 3500,
       mass: 170
     },
-    connections: ['BS-051', 'BS-033']
+    connections: ['BS-051', 'BS-033', 'BS-052', 'BS-002', 'BS-034']
   },
   {
     id: 'BS-053',
@@ -1592,7 +1592,7 @@ export const satellites: Satellite[] = [
       power: 7600,
       mass: 345
     },
-    connections: ['BS-015', 'BS-034', 'BS-054']
+    connections: ['BS-015', 'BS-034', 'BS-054', 'BS-053', 'BS-055', 'BS-035']
   },
   {
     id: 'BS-054',
@@ -1622,7 +1622,7 @@ export const satellites: Satellite[] = [
       power: 8400,
       mass: 380
     },
-    connections: ['BS-053', 'BS-013', 'BS-055']
+    connections: ['BS-053', 'BS-013', 'BS-055', 'BS-054', 'BS-031', 'BS-009']
   },
   {
     id: 'BS-055',
@@ -1652,6 +1652,6 @@ export const satellites: Satellite[] = [
       power: 4800,
       mass: 225
     },
-    connections: ['BS-054', 'BS-035']
+    connections: ['BS-054', 'BS-035', 'BS-053', 'BS-009', 'BS-034']
   }
 ]
