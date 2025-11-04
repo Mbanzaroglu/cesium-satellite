@@ -32,7 +32,12 @@ export const satellites: Satellite[] = [
       power: 5000,
       mass: 250
     },
-    connections: ['BS-002', 'BS-003', 'BS-005', 'BS-014', 'BS-042', 'BS-037', 'BS-039']
+    connections: ['BS-002', 'BS-003', 'BS-005', 'BS-014', 'BS-042', 'BS-037', 'BS-039'],
+    alert: {
+      faultRisk: 45,
+      alertStatus: 'warning',
+      recommendedAction: 'Periyodik bakım önerilir'
+    }
   },
   {
     id: 'BS-002',
@@ -62,7 +67,12 @@ export const satellites: Satellite[] = [
       power: 6000,
       mass: 280
     },
-    connections: ['BS-001', 'BS-004', 'BS-006', 'BS-033', 'BS-051', 'BS-034', 'BS-052']
+    connections: ['BS-001', 'BS-004', 'BS-006', 'BS-033', 'BS-051', 'BS-034', 'BS-052'],
+    alert: {
+      faultRisk: 30,
+      alertStatus: 'normal',
+      recommendedAction: 'Rutin kontrol yeterli'
+    }
   },
   {
     id: 'BS-003',
@@ -92,7 +102,12 @@ export const satellites: Satellite[] = [
       power: 7000,
       mass: 320
     },
-    connections: ['BS-001', 'BS-007', 'BS-036', 'BS-037', 'BS-038', 'BS-024', 'BS-039']
+    connections: ['BS-001', 'BS-007', 'BS-036', 'BS-037', 'BS-038', 'BS-024', 'BS-039'],
+    alert: {
+      faultRisk: 65,
+      alertStatus: 'critical',
+      recommendedAction: 'Önleyici bakım gerekli'
+    }
   },
   {
     id: 'BS-004',
@@ -1592,7 +1607,12 @@ export const satellites: Satellite[] = [
       power: 7600,
       mass: 345
     },
-    connections: ['BS-015', 'BS-034', 'BS-054', 'BS-053', 'BS-055', 'BS-035']
+    connections: ['BS-015', 'BS-034', 'BS-054', 'BS-055', 'BS-035'],
+    alert: {
+      faultRisk: 55,
+      alertStatus: 'warning',
+      recommendedAction: 'Önleyici bakım önerilir - Yakın zamanda kontrol edilmeli'
+    }
   },
   {
     id: 'BS-054',

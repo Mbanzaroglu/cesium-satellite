@@ -1,9 +1,7 @@
 import { SatelliteProvider } from './context/SatelliteContext'
 import { satellites } from './data/satellites'
 import CesiumViewer from './components/CesiumViewer/CesiumViewer'
-import SatelliteDetail from './components/SatelliteDetail/SatelliteDetail'
-import SatelliteFilters from './components/SatelliteFilters/SatelliteFilters'
-import SatelliteList from './components/SatelliteList/SatelliteList'
+import DisplayOptions from './components/DisplayOptions/DisplayOptions'
 import './App.css'
 
 function App() {
@@ -11,13 +9,11 @@ function App() {
     <SatelliteProvider initialSatellites={satellites}>
       <div className="app">
         <div className="app-header">
-          <h1>Baz İstasyonu Görüntüleme Arayüzü</h1>
+          <h1>Telecom Infrastructure Command Center</h1>
         </div>
         <div className="app-content">
           <div className="app-sidebar">
-            <SatelliteFilters />
-            <SatelliteList />
-            <SatelliteDetail />
+            <DisplayOptions />
           </div>
           <div className="app-map">
             <CesiumViewer />

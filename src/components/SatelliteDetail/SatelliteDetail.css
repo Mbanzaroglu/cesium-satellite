@@ -1,14 +1,15 @@
 .satellite-detail {
-  padding: 20px;
-  background: #ffffff;
+  padding: 0;
+  background: #2C3E50;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
   min-height: 300px;
   max-height: 100%;
-  overflow-y: auto;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   flex: 1;
+  color: #ffffff;
 }
 
 .satellite-detail.empty {
@@ -21,17 +22,45 @@
 
 .satellite-detail-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
-  padding-bottom: 16px;
-  border-bottom: 2px solid #e0e0e0;
+  padding: 16px 20px;
+  background: #34495E;
+  border-bottom: 1px solid #1A252F;
+  position: relative;
+}
+
+.header-icon {
+  margin-right: 12px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
 }
 
 .satellite-detail-header h2 {
   margin: 0;
-  color: #333;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #ffffff;
   font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.close-button:hover {
+  opacity: 0.7;
 }
 
 .status-badge {
@@ -46,18 +75,88 @@
 .satellite-detail-content {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Alert Bölümü - Pop-up tarzı */
+.alert-section {
+  background: #34495E;
+  border-radius: 6px;
+  padding: 16px;
+  border-left: 4px solid #E74C3C;
+}
+
+.alert-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.alert-icon {
+  font-size: 18px;
+}
+
+.alert-title {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.alert-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.alert-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 8px 0;
+}
+
+.alert-label {
+  color: #BDC3C7;
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 140px;
+}
+
+.alert-value {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: right;
+  flex: 1;
+}
+
+.alert-risk {
+  color: #FF9800;
+  font-size: 16px;
+}
+
+.alert-status {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.alert-action {
+  color: #E74C3C;
+  font-weight: 500;
 }
 
 .detail-section {
-  background: #f8f9fa;
+  background: #34495E;
   padding: 16px;
   border-radius: 6px;
 }
 
 .detail-section h3 {
   margin: 0 0 12px 0;
-  color: #555;
+  color: #ffffff;
   font-size: 16px;
   font-weight: 600;
 }
@@ -74,12 +173,12 @@
 }
 
 .detail-row .label {
-  color: #666;
+  color: #BDC3C7;
   font-weight: 500;
 }
 
 .detail-row .value {
-  color: #333;
+  color: #ffffff;
   font-weight: 600;
 }
 

@@ -4,7 +4,7 @@ import { useSatelliteContext } from '../../context/SatelliteContext'
 import './SatelliteDetail.css'
 
 const SatelliteDetail: React.FC = () => {
-  const { selectedSatellite } = useSatelliteContext()
+  const { selectedSatellite, setSelectedSatellite } = useSatelliteContext()
 
   if (!selectedSatellite) {
     return (
@@ -27,20 +27,73 @@ const SatelliteDetail: React.FC = () => {
     scientific: 'Bilimsel'
   }
 
+  // Alert durumu için renkler ve etiketler
+  const alertStatusColors = {
+    critical: '#F44336',
+    warning: '#FF9800',
+    normal: '#4CAF50',
+    good: '#2196F3'
+  }
+
+  const alertStatusLabels = {
+    critical: 'Critical',
+    warning: 'Warning',
+    normal: 'Normal',
+    good: 'Good'
+  }
+
+  // Alert bilgisi yoksa varsayılan değerler
+  const alertInfo = selectedSatellite.alert || {
+    faultRisk: 0,
+    alertStatus: 'good' as const,
+    recommendedAction: 'Herhangi bir aksiyon gerekmiyor'
+  }
+
   return (
     <div className="satellite-detail">
       <div className="satellite-detail-header">
+        <div className="header-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="2"/>
+            <circle cx="10" cy="10" r="4" fill="currentColor"/>
+          </svg>
+        </div>
         <h2>{selectedSatellite.name}</h2>
-        <span
-          className="status-badge"
-          style={{ backgroundColor: statusColors[selectedSatellite.status] }}
-        >
-          {selectedSatellite.status === 'active' ? 'Aktif' : 
-           selectedSatellite.status === 'standby' ? 'Beklemede' : 'Bakımda'}
-        </span>
+        <button className="close-button" onClick={() => setSelectedSatellite(null)}>×</button>
       </div>
 
       <div className="satellite-detail-content" style={{ flex: 1, overflowY: 'auto' }}>
+        {/* AI Uyarı Bilgileri - Pop-up tarzı */}
+        <div className="alert-section">
+          <div className="alert-header">
+            <span className="alert-icon">⚠️</span>
+            <span className="alert-title">AI Uyarısı</span>
+          </div>
+          <div className="alert-info">
+            <div className="alert-row">
+              <span className="alert-label">Site:</span>
+              <span className="alert-value">{selectedSatellite.name}</span>
+            </div>
+            <div className="alert-row">
+              <span className="alert-label">Arıza Riski:</span>
+              <span className="alert-value alert-risk">{alertInfo.faultRisk}%</span>
+            </div>
+            <div className="alert-row">
+              <span className="alert-label">Durum:</span>
+              <span 
+                className="alert-value alert-status"
+                style={{ color: alertStatusColors[alertInfo.alertStatus] }}
+              >
+                {alertStatusLabels[alertInfo.alertStatus]}
+              </span>
+            </div>
+            <div className="alert-row">
+              <span className="alert-label">Önerilen Aksiyon:</span>
+              <span className="alert-value alert-action">{alertInfo.recommendedAction}</span>
+            </div>
+          </div>
+        </div>
+
         <div className="detail-section">
           <h3>Genel Bilgiler</h3>
           <div className="detail-row">
@@ -58,6 +111,16 @@ const SatelliteDetail: React.FC = () => {
           <div className="detail-row">
             <span className="label">Görev:</span>
             <span className="value">{selectedSatellite.metadata.mission}</span>
+          </div>
+          <div className="detail-row">
+            <span className="label">Durum:</span>
+            <span 
+              className="value"
+              style={{ color: statusColors[selectedSatellite.status] }}
+            >
+              {selectedSatellite.status === 'active' ? 'Aktif' : 
+               selectedSatellite.status === 'standby' ? 'Beklemede' : 'Bakımda'}
+            </span>
           </div>
           <div className="detail-row">
             <span className="label">Fırlatma Tarihi:</span>

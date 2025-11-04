@@ -29,6 +29,12 @@ export interface Satellite {
     mass: number // kg
   }
   connections?: string[] // Bağlı olduğu uydu ID'leri
+  // AI Uyarı ve Durum Bilgileri
+  alert?: {
+    faultRisk: number // Arıza riski yüzdesi (0-100)
+    alertStatus: 'critical' | 'warning' | 'normal' | 'good' // Durum
+    recommendedAction: string // Önerilen aksiyon
+  }
 }
 
 export interface SatelliteConnection {

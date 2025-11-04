@@ -15,7 +15,7 @@ if (typeof window !== 'undefined') {
 }
 
 const CesiumViewer: React.FC = () => {
-  const { filteredSatellites, selectedSatellite, setSelectedSatellite } = useSatelliteContext()
+  const { filteredSatellites, selectedSatellite, setSelectedSatellite, displayOptions } = useSatelliteContext()
   const viewerRef = useRef<Cesium.Viewer | null>(null)
   const initializedRef = useRef(false)
   const tiltModeEnabledRef = useRef(false) // Varsayılan olarak tilt modu kapalı
@@ -129,9 +129,14 @@ const CesiumViewer: React.FC = () => {
         const entityId = pickedEntity.id as string
         const satellite = filteredSatellites.find(s => s.id === entityId)
         if (satellite) {
-          // Entity'yi seç ama viewer'ın default davranışını engelle
+          // Entity'yi seç - InfoBox otomatik olarak açılacak
           viewer.selectedEntity = pickedEntity
           setSelectedSatellite(satellite)
+          
+          // InfoBox'ın görünür olduğundan emin ol
+          if (viewer.infoBox && viewer.infoBox.viewModel) {
+            viewer.infoBox.viewModel.showInfo = true
+          }
           
           // Kamera pozisyonunu ve açısını koru (zoom yapma, tilt yapma)
           const currentPosition = viewer.camera.position.clone()
@@ -352,6 +357,185 @@ const CesiumViewer: React.FC = () => {
             return baseScale * pulse
           }, false)
 
+          // Alert bilgisi için varsayılan değerler
+          const alertInfo = satellite.alert || {
+            faultRisk: 0,
+            alertStatus: 'good' as const,
+            recommendedAction: 'Herhangi bir aksiyon gerekmiyor'
+          }
+
+          // Alert durumu için renkler
+          const alertStatusColors = {
+            critical: '#F44336',
+            warning: '#FF9800',
+            normal: '#4CAF50',
+            good: '#2196F3'
+          }
+
+          const alertStatusLabels = {
+            critical: 'Critical',
+            warning: 'Warning',
+            normal: 'Normal',
+            good: 'Good'
+          }
+
+          const statusColors = {
+            active: '#4CAF50',
+            standby: '#FF9800',
+            maintenance: '#F44336'
+          }
+
+          const typeLabels = {
+            communication: 'İletişim',
+            observation: 'Gözlem',
+            navigation: 'Navigasyon',
+            scientific: 'Bilimsel'
+          }
+
+          // Detaylı HTML description oluştur - displayOptions'a göre
+          const sections: string[] = []
+
+          // AI Uyarı Bölümü
+          if (displayOptions.showAlert) {
+            sections.push(`
+              <div style="background: #34495E; padding: 16px; border-radius: 6px; margin-bottom: 16px; border-left: 4px solid ${alertStatusColors[alertInfo.alertStatus]};">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                  <span style="font-size: 18px;">⚠️</span>
+                  <span style="color: #ffffff; font-size: 16px; font-weight: 600;">AI Uyarısı</span>
+                </div>
+                <div style="color: #ffffff;">
+                  <div style="margin-bottom: 8px;">
+                    <span style="color: #BDC3C7;">Site:</span>
+                    <span style="margin-left: 8px; font-weight: 600;">${satellite.name}</span>
+                  </div>
+                  <div style="margin-bottom: 8px;">
+                    <span style="color: #BDC3C7;">Arıza Riski:</span>
+                    <span style="margin-left: 8px; color: #FF9800; font-weight: 600; font-size: 16px;">${alertInfo.faultRisk}%</span>
+                  </div>
+                  <div style="margin-bottom: 8px;">
+                    <span style="color: #BDC3C7;">Durum:</span>
+                    <span style="margin-left: 8px; color: ${alertStatusColors[alertInfo.alertStatus]}; font-weight: 700; font-size: 16px;">${alertStatusLabels[alertInfo.alertStatus]}</span>
+                  </div>
+                  <div>
+                    <span style="color: #BDC3C7;">Önerilen Aksiyon:</span>
+                    <span style="margin-left: 8px; color: #E74C3C; font-weight: 500;">${alertInfo.recommendedAction}</span>
+                  </div>
+                </div>
+              </div>
+            `)
+          }
+
+          // Genel Bilgiler
+          if (displayOptions.showGeneralInfo) {
+            sections.push(`
+              <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
+                <h3 style="margin: 0 0 12px 0; color: #555; font-size: 16px; font-weight: 600;">Genel Bilgiler</h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                  <tr>
+                    <td style="padding: 6px 0; color: #666; font-weight: 500;">ID:</td>
+                    <td style="padding: 6px 0; color: #333; font-weight: 600; text-align: right;">${satellite.id}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 0; color: #666; font-weight: 500;">Tip:</td>
+                    <td style="padding: 6px 0; color: #333; font-weight: 600; text-align: right;">${typeLabels[satellite.type]}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 0; color: #666; font-weight: 500;">Operatör:</td>
+                    <td style="padding: 6px 0; color: #333; font-weight: 600; text-align: right;">${satellite.metadata.operator}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 0; color: #666; font-weight: 500;">Görev:</td>
+                    <td style="padding: 6px 0; color: #333; font-weight: 600; text-align: right;">${satellite.metadata.mission}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 0; color: #666; font-weight: 500;">Durum:</td>
+                    <td style="padding: 6px 0; color: ${statusColors[satellite.status]}; font-weight: 600; text-align: right;">
+                      ${satellite.status === 'active' ? 'Aktif' : satellite.status === 'standby' ? 'Beklemede' : 'Bakımda'}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 0; color: #666; font-weight: 500;">Fırlatma Tarihi:</td>
+                    <td style="padding: 6px 0; color: #333; font-weight: 600; text-align: right;">${satellite.metadata.launchDate}</td>
+                  </tr>
+                </table>
+              </div>
+            `)
+          }
+
+          // Pozisyon
+          if (displayOptions.showPosition) {
+            sections.push(`
+              <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
+                <h3 style="margin: 0 0 12px 0; color: #555; font-size: 16px; font-weight: 600;">Pozisyon</h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                  <tr>
+                    <td style="padding: 6px 0; color: #666; font-weight: 500;">Boylam:</td>
+                    <td style="padding: 6px 0; color: #333; font-weight: 600; text-align: right;">${satellite.position.longitude.toFixed(4)}°</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 0; color: #666; font-weight: 500;">Enlem:</td>
+                    <td style="padding: 6px 0; color: #333; font-weight: 600; text-align: right;">${satellite.position.latitude.toFixed(4)}°</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 0; color: #666; font-weight: 500;">Yükseklik:</td>
+                    <td style="padding: 6px 0; color: #333; font-weight: 600; text-align: right;">${satellite.position.height} m</td>
+                  </tr>
+                </table>
+              </div>
+            `)
+          }
+
+          // Yetenekler
+          if (displayOptions.showCapabilities) {
+            sections.push(`
+              <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; margin-bottom: 12px;">
+                <h3 style="margin: 0 0 12px 0; color: #555; font-size: 16px; font-weight: 600;">Yetenekler</h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                  <tr>
+                    <td style="padding: 6px 0; color: #666; font-weight: 500;">İletişim Menzili:</td>
+                    <td style="padding: 6px 0; color: #333; font-weight: 600; text-align: right;">${satellite.capabilities.communicationRange} km</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 0; color: #666; font-weight: 500;">Kapsama Yarıçapı:</td>
+                    <td style="padding: 6px 0; color: #333; font-weight: 600; text-align: right;">${satellite.capabilities.coverageRadius} km</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 0; color: #666; font-weight: 500;">Veri Hızı:</td>
+                    <td style="padding: 6px 0; color: #333; font-weight: 600; text-align: right;">${satellite.capabilities.dataRate} Mbps</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 0; color: #666; font-weight: 500;">Frekans:</td>
+                    <td style="padding: 6px 0; color: #333; font-weight: 600; text-align: right;">${satellite.capabilities.frequency} GHz</td>
+                  </tr>
+                </table>
+              </div>
+            `)
+          }
+
+          // Teknik Özellikler
+          if (displayOptions.showTechnicalSpecs) {
+            sections.push(`
+              <div style="background: #f8f9fa; padding: 12px; border-radius: 6px;">
+                <h3 style="margin: 0 0 12px 0; color: #555; font-size: 16px; font-weight: 600;">Teknik Özellikler</h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                  <tr>
+                    <td style="padding: 6px 0; color: #666; font-weight: 500;">Güç:</td>
+                    <td style="padding: 6px 0; color: #333; font-weight: 600; text-align: right;">${satellite.metadata.power} W</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 0; color: #666; font-weight: 500;">Kütle:</td>
+                    <td style="padding: 6px 0; color: #333; font-weight: 600; text-align: right;">${satellite.metadata.mass} kg</td>
+                  </tr>
+                </table>
+              </div>
+            `)
+          }
+
+          // Eğer hiçbir bölüm seçilmemişse varsayılan mesaj
+          const descriptionHTML = sections.length > 0
+            ? `<div style="font-family: Arial, sans-serif; color: #333; max-width: 500px;">${sections.join('')}</div>`
+            : `<div style="font-family: Arial, sans-serif; color: #666; max-width: 500px; padding: 20px; text-align: center;"><p>No information sections are enabled. Please select at least one section in the Display Options panel.</p></div>`
+
           return (
             <React.Fragment key={satellite.id}>
               {/* Ana baz istasyonu entity - tıklanabilir */}
@@ -363,7 +547,7 @@ const CesiumViewer: React.FC = () => {
                   satellite.position.latitude,
                   satellite.position.height
                 )}
-                description={`<div><h3>${satellite.name}</h3><p>${satellite.metadata.mission}</p></div>`}
+                description={descriptionHTML}
               >
                 {/* Sabit kule/platform - animasyon yok, anten ışığına göre hizalanmış */}
                 <BillboardGraphics

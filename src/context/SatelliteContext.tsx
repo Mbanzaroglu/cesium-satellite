@@ -2,6 +2,14 @@
 import React, { createContext, useContext, useState, useMemo, ReactNode } from 'react'
 import { Satellite } from '../types/satellite'
 
+export interface DisplayOptions {
+  showAlert: boolean
+  showGeneralInfo: boolean
+  showPosition: boolean
+  showCapabilities: boolean
+  showTechnicalSpecs: boolean
+}
+
 interface SatelliteContextType {
   satellites: Satellite[]
   selectedSatellite: Satellite | null
@@ -17,6 +25,8 @@ interface SatelliteContextType {
     status: string[]
     searchQuery: string
   }) => void
+  displayOptions: DisplayOptions
+  setDisplayOptions: (options: DisplayOptions | ((prev: DisplayOptions) => DisplayOptions)) => void
 }
 
 const SatelliteContext = createContext<SatelliteContextType | undefined>(undefined)
@@ -57,6 +67,15 @@ export const SatelliteProvider: React.FC<SatelliteProviderProps> = ({
     searchQuery: ''
   })
 
+  // InfoBox'ta gösterilecek bilgileri kontrol eden state
+  const [displayOptions, setDisplayOptions] = useState<DisplayOptions>({
+    showAlert: true,
+    showGeneralInfo: true,
+    showPosition: true,
+    showCapabilities: true,
+    showTechnicalSpecs: true
+  })
+
   // Filtreleme mantığı
   const filteredSatellites = useMemo(() => {
     return satellites.filter(satellite => {
@@ -94,9 +113,11 @@ export const SatelliteProvider: React.FC<SatelliteProviderProps> = ({
       setSelectedSatellite,
       filteredSatellites,
       filters,
-      setFilters
+      setFilters,
+      displayOptions,
+      setDisplayOptions
     }),
-    [satellites, selectedSatellite, filteredSatellites, filters]
+    [satellites, selectedSatellite, filteredSatellites, filters, displayOptions]
   )
 
   return (

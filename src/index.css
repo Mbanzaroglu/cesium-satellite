@@ -24,3 +24,30 @@ body {
   display: none !important;
 }
 
+/* InfoBox görünürlüğünü ve stilini iyileştir */
+.cesium-infoBox {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.cesium-infoBox-visible {
+  display: block !important;
+}
+
+.cesium-infoBox-description {
+  font-family: Arial, sans-serif !important;
+  max-width: 500px !important;
+  max-height: 400px !important;
+  overflow-y: auto !important;
+}
+
+.cesium-infoBox-description table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+}
+
+.cesium-infoBox-description td {
+  padding: 6px 0 !important;
+}
+
