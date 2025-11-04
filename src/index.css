@@ -19,3 +19,8 @@ body {
   width: 100%;
 }
 
+/* Cesium Ion logosunu gizle */
+.cesium-widget-credits {
+  display: none !important;
+}
+

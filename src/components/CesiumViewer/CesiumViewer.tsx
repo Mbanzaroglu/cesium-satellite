@@ -58,6 +58,16 @@ const CesiumViewer: React.FC = () => {
       })
     }
 
+    // Cesium Ion logosunu kaldır
+    try {
+      const cesiumWidget = (viewer as any)._cesiumWidget
+      if (cesiumWidget && cesiumWidget._creditContainer) {
+        cesiumWidget._creditContainer.style.display = 'none'
+      }
+    } catch (e) {
+      // Credit container'a erişilemediyse sessizce geç
+    }
+
     // Coverage area entity'lerini pickable false yap
     // Bu sayede tıklama event'leri ana entity'ye gidecek
     viewer.entities.collectionChanged.addEventListener(() => {
