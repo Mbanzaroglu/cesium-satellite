@@ -20,6 +20,8 @@ const CesiumViewer: React.FC = () => {
   const initializedRef = useRef(false)
   const tiltModeEnabledRef = useRef(false) // Varsayılan olarak tilt modu kapalı
   const clickHandlerRef = useRef<Cesium.ScreenSpaceEventHandler | null>(null)
+  // Her baz istasyonu için rastgele animasyon fazı (bağımsız parıldama için)
+  const animationPhasesRef = useRef<Map<string, number>>(new Map())
 
   // Seçili baz istasyonu değiştiğinde console'a yazdır
   useEffect(() => {
@@ -324,13 +326,43 @@ const CesiumViewer: React.FC = () => {
           const isSelected = selectedSatellite?.id === satellite.id
           const isConnected = connectedStationIds.has(satellite.id) && !isSelected
           
-          // Renk belirleme: Seçili = ORANGE, Bağlantılı = PURPLE, Normal = Default
-          let billboardColor: Cesium.Color | undefined = undefined
-          if (isSelected) {
-            billboardColor = Cesium.Color.ORANGE
-          } else if (isConnected) {
-            billboardColor = Cesium.Color.fromCssColorString('#9B59B6') // Mor/Purple
+          // Her baz istasyonu için rastgele animasyon fazı oluştur (bağımsız parıldama için)
+          if (!animationPhasesRef.current.has(satellite.id)) {
+            animationPhasesRef.current.set(satellite.id, Math.random() * Math.PI * 2)
           }
+          const phase = animationPhasesRef.current.get(satellite.id) || 0
+          
+          // Renk belirleme: Seçili = ORANGE, Bağlantılı = PURPLE, Normal = Default
+          let baseColor: Cesium.Color = Cesium.Color.WHITE
+          if (isSelected) {
+            baseColor = Cesium.Color.ORANGE
+          } else if (isConnected) {
+            baseColor = Cesium.Color.fromCssColorString('#9B59B6') // Mor/Purple
+          }
+          
+          // Parıldama efekti için dinamik color ve scale
+          // CallbackProperty constant: false = her frame'de güncellenir
+          const animatedColor = new Cesium.CallbackProperty(() => {
+            if (!viewerRef.current) return baseColor
+            
+            // Zaman bazlı animasyon (yaklaşık 2 saniye döngü)
+            const time = (Date.now() / 1000) % 2
+            const pulse = Math.sin((time * Math.PI) + phase) * 0.3 + 0.7 // 0.4 - 1.0 arası
+            const alpha = Math.min(0.9, pulse + 0.1) // 0.5 - 1.0 arası alpha
+            
+            return baseColor.withAlpha(alpha)
+          }, false)
+          
+          const animatedScale = new Cesium.CallbackProperty(() => {
+            if (!viewerRef.current) return isSelected ? 1.5 : (isConnected ? 1.2 : 1.0)
+            
+            // Zaman bazlı scale animasyonu (hafif büyüyüp küçülme)
+            const time = (Date.now() / 1000) % 2
+            const pulse = Math.sin((time * Math.PI) + phase) * 0.15 + 0.85 // 0.7 - 1.0 arası
+            const baseScale = isSelected ? 1.5 : (isConnected ? 1.2 : 1.0)
+            
+            return baseScale * pulse
+          }, false)
 
           return (
             <React.Fragment key={satellite.id}>
@@ -348,11 +380,11 @@ const CesiumViewer: React.FC = () => {
                 {/* Baz istasyonu ikonu */}
                 <BillboardGraphics
                   image={satelliteIcon}
-                  scale={isSelected ? 1.5 : (isConnected ? 1.2 : 1.0)}
+                  scale={animatedScale}
                   verticalOrigin={Cesium.VerticalOrigin.CENTER}
                   horizontalOrigin={Cesium.HorizontalOrigin.CENTER}
                   pixelOffset={new Cesium.Cartesian2(0, 0)}
-                  color={billboardColor}
+                  color={animatedColor}
                 />
               </Entity>
 
