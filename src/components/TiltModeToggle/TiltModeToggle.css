@@ -1,0 +1,47 @@
+.tilt-mode-toggle {
+  position: absolute;
+  top: 80px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.tilt-toggle-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #ffffff;
+  border: 2px solid #4A90E2;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s;
+}
+
+.tilt-toggle-button:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.tilt-toggle-button.enabled {
+  background: #4A90E2;
+  color: white;
+  border-color: #357ABD;
+}
+
+.tilt-toggle-button.enabled:hover {
+  background: #357ABD;
+}
+
+.tilt-icon {
+  font-size: 18px;
+}
+
+.tilt-label {
+  user-select: none;
+}
+
